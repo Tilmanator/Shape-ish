@@ -3,17 +3,17 @@ var currentDescription;
 var shapeArray = [];
 var inSet = false;
 var points = 0;
+var numShapes = 3;
+var shapeOptions = 2;
+var numColours = 3;
 
 function startGame() {
     $("#title").hide();
     $("#startButton").hide();
     $("#leftButton").show();
     $("#rightButton").show();
+    $("#points").text("Points: "+points).show();
     myGameArea.start();
-    shapeArray.push(new Rect(30,30,"red", 10, 120));
-    shapeArray.push(new Circle(15,"green",10,120));
-    shapeArray.push(new Triangle(30,30, "blue", 10,120));
-    shapeArray.push(getShape(3, 30, 3, 10, 120));
 }
 
 var myGameArea = {
@@ -44,21 +44,42 @@ var myGameArea = {
             }
             e.preventDefault(); // prevent the default action (scroll / move caret)
         });
+        this.reset();
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     reset: function() {
-        shapeArray.push(new Rect(30,30,"red", 10, 120));
-        shapeArray.push(new Circle(15,"green",60,120));
+        var displayShape = Math.floor(Math.random()*shapeOptions);
+        var displayColour = Math.floor(Math.random()*numColours);
+        currentDescription = colours[displayColour]+" "+shapes[displayShape];
+        $("#message").html(currentDescription).show();
+        var addCurrent = Math.random() > 0.5 ? 1 : 0;
+        inSet = addCurrent;
+        for(var i=0; i< numShapes; i++){
+            if(addCurrent){
+                shapeArray.push(getShape(displayShape, 30, displayColour, 10,120));
+                addCurrent = false;
+            }
+            else{
+                var shp = Math.floor(Math.random()* shapeOptions);
+                var col = Math.floor(Math.random()* numColours);
+                if(shp == displayShape && col == displayColour){
+                    --i;
+                    continue;
+                }
+                shapeArray.push(getShape(shp, 30, col, 10 + 40 * i, 120));
+            }
+
+        }
     }
 }
 
 
 function updateGameArea(){
+    $("#points").html("Points: "+points);
     myGameArea.clear();
     for (var i = 0; i < shapeArray.length; i++) {
-      //shapeArray[i].x += Math.random() > 0.5 ? -1 : 1;
       shapeArray[i].update();
     };
 }
@@ -69,7 +90,28 @@ function analyseResult(yes){
     }
     else{
       points -= 10;
+      $("#message").animate({
+        'marginLeft' : "-=30px" //moves left
+        }, 100);
+      $("#message").animate({
+        'marginLeft' : "+=60px" //moves left
+        },100);
+      $("#message").animate({
+        'marginLeft' : "-=30px" //moves left
+        },100);
     }
+
+    if(points >= 100 && shapeOptions < 3){
+        ++shapeOptions;
+    }
+    if(points >= 150 && numColours < 4){
+        ++numColours;
+    }
+    if (points >= 250 && numShapes < 4) {
+        ++numShapes;
+    };
+    shapeArray.splice(0,shapeArray.length);
+    myGameArea.reset();
 }
 
 

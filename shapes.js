@@ -1,4 +1,5 @@
 var colours = ["red", "blue", "orange", "green", "yellow"];
+var shapes = ["Rectangle", "Circle", "Triangle", "Star"];
 
 function Rect(width, height, colour, x, y) {
     this.width = width;
@@ -63,16 +64,16 @@ function Star (width, height, colour, x, y) {
   }
 }
 
-function getShape(i, size, numColours, x, y) {
-  switch(i){
+function getShape(shapeType, size, colour, x, y) {
+  switch(shapeType){
     case 0:
-      return new Rect(size,size, colours[Math.floor(Math.random()*numColours)], x, y);
+      return new Rect(size,size, colours[colour], x, y);
     case 1:
-      return new Circle(size/2, colours[Math.floor(Math.random()*numColours)], x, y);
+      return new Circle(size/2, colours[colour], x, y);
     case 2:
-      return new Triangle(size, size, colours[Math.floor(Math.random()*numColours)], x, y);
+      return new Triangle(size, size, colours[colour], x, y);
     case 3:
-      return new Star(size, size, colours[Math.floor(Math.random()*numColours)], x, y); 
+      return new Star(size, size, colours[colour], x, y); 
   }
 
 }

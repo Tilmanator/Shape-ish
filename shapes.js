@@ -51,12 +51,12 @@ function Star (width, height, colour, x, y) {
   this.update = function () {
       context = myGameArea.context;
       context.beginPath();
-      context.moveTo(this.x + this.width*2/5,this.y + this.height);
+      context.moveTo(this.x + this.width*1/5,this.y + this.height);
       context.lineTo(this.x+ (width/2), this.y);
       context.lineTo(this.x + (this.width*4/5), this.y + this.height);
       context.lineTo(this.x, this.y+ this.height*2/5);
       context.lineTo(this.x + this.width, this.y+ this.height*2/5);
-      context.lineTo(this.x + this.width/3,this.y + this.height);
+      context.lineTo(this.x + this.width/5,this.y + this.height);
       context.closePath();
       context.fillStyle = colour;
       context.fill();

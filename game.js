@@ -7,6 +7,8 @@ var numShapes = 3;
 var shapeOptions = 2;
 var numColours = 3;
 
+var shapeWidth = 30;
+
 function startGame() {
     $("#title").hide();
     $("#startButton").hide();
@@ -56,25 +58,29 @@ var myGameArea = {
         $("#message").html(currentDescription).show();
         var addCurrent = Math.random() > 0.5 ? 1 : 0;
         inSet = addCurrent;
-        for(var i=0; i< numShapes; i++){
-            if(addCurrent){
-                shapeArray.push(getShape(displayShape, 30, displayColour, 10,120));
-                addCurrent = false;
+        var w = myGameArea.canvas.width;
+        var l = $("canvas").position().left;
+        var centre = w/2;
+        var leftMost = centre - numShapes * shapeWidth/2;
+        var idx = Math.floor(Math.random()*numShapes);
+        for(var i=0; i< numShapes ; i++){
+            if(addCurrent && i==idx)continue;
+            var shp = Math.floor(Math.random()* shapeOptions);
+            var col = Math.floor(Math.random()* numColours);
+            if(shp == displayShape && col == displayColour){
+                --i;
+                continue;
             }
-            else{
-                var shp = Math.floor(Math.random()* shapeOptions);
-                var col = Math.floor(Math.random()* numColours);
-                if(shp == displayShape && col == displayColour){
-                    --i;
-                    continue;
-                }
-                shapeArray.push(getShape(shp, 30, col, 10 + 40 * i, 120));
-            }
+            shapeArray.push(getShape(shp, shapeWidth, col, leftMost+ (shapeWidth+10)*i, 180));
 
+        }
+        if(addCurrent){
+            shapeArray.splice(idx, 0, getShape(displayShape, shapeWidth, displayColour, leftMost+ (shapeWidth+10)*idx,180));
         }
     }
 }
 
+var shapeWidth = myGameArea.canvas.width/4;
 
 function updateGameArea(){
     $("#points").html("Points: "+points);

@@ -1,5 +1,5 @@
 var colours = ["red", "blue", "orange", "green", "yellow"];
-var shapes = ["Rectangle", "Circle", "Triangle", "Star"];
+var shapes = ["Square", "Circle", "Triangle", "Star"];
 
 function Rect(width, height, colour, x, y) {
     this.width = width;

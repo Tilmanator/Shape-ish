@@ -24,7 +24,7 @@ var myGameArea = {
         this.canvas.width = $(document).width()-20;
         this.canvas.height = $(document).height()-30;
         this.context = this.canvas.getContext("2d");
-        $("body").prepend(this.canvas);
+        $("body").append(this.canvas);
         this.interval = setInterval(updateGameArea, 1);
         $(document).keydown(function(e) {
             switch(e.which) {
@@ -83,7 +83,7 @@ var myGameArea = {
 var shapeWidth = myGameArea.canvas.width/4;
 
 function updateGameArea(){
-    $("#points").html("Points: "+points);
+    $("#points").css('top', $("canvas").position().top).css('right', $("canvas").position().left).html("Points: "+points);
     myGameArea.clear();
     for (var i = 0; i < shapeArray.length; i++) {
       shapeArray[i].update();
